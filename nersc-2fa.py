@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import pyotp
-import base64
+import keyring
 import requests
 import os
 import json
@@ -15,11 +15,12 @@ config_file = os.path.expanduser("~/.config/nersc-2fa.json")
 def load_config(fname):
     with open(fname, 'r') as f:
         config = json.load(f)
-    return config["user"], base64.b64decode(config["password"]), config["url"], config["seed"], config["target"]
+    return config["user"], keyring.get_password(config['target'], config['user']), config["url"], config["seed"], config["target"]
 
 def save_config(fname, user, password, url, seed, target):
+    keyring.set_password(target, user, password)
     with open(fname, 'w') as f:
-        json.dump(dict(user=user, password=base64.b64encode(password), url=url, seed=seed, target=target), f, indent=2)
+        json.dump(dict(user=user, url=url, seed=seed, target=target), f, indent=2)
 
 try:
     user, password, url, seed, target = load_config(config_file)

@@ -9,7 +9,7 @@ Installation
 1. Install dependencies
 
 ```
-pip install pyotp
+pip install pyotp keyring
 ```
 
 2. Clone this repo
