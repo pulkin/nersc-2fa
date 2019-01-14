@@ -35,7 +35,6 @@ except Exception as e:
 
     # === Password === #
     password = getpass.getpass()
-    config["password"] = password
 
     # === Seed === #
     while True:
